@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="ASTRA: Automated Synthesis of agentic Trajectories and Reinforcement Arenas">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ASTRA: Automated Synthesis of agentic Trajectories and Reinforcement Arenas</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    .katex {
+      font-size: 1.1em;
+    }
+
+    .formula-box {
+      padding: 1rem;
+      background: #f8f9fa;
+    }
+  </style>
+
+
+  <link
+    href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro|Montserrat:wght@400;700;800&family=Lora:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+  <section class="hero" style="margin: 0.1rem 0 !important; padding: 0.2rem 0.2rem !important;">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              <span class="astra-title">
+                <img src="./static/images/logo.png"
+                  style="height: 1.2em; margin-right: 0.2rem; background: transparent;">
+                &nbsp;ASTRA:
+              </span><br>
+              <span class="astra-subtitle"><span class="astra-initial">A</span>utomated <span
+                  class="astra-initial">S</span>ynthesis of Agentic <span class="astra-initial">T</span>rajectories and
+                <span class="astra-initial">R</span>einforcement <span class="astra-initial">A</span>renas</span>
+            </h1>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">January 22, 2026</span>
+              <span class="author-block">&nbsp;—&nbsp;</span>
+              <span class="author-block">Beike Language and Intelligence</span>
+            </div>
+
+            <style>
+              .publication-title {
+                font-family: 'Montserrat', sans-serif !important;
+                font-weight: 800 !important;
+                margin-bottom: 1rem !important;
+                line-height: 1.1 !important;
+              }
+
+              .astra-title {
+                font-size: 1.3em;
+                letter-spacing: 0.12rem;
+                color: #2c3e50;
+                text-transform: uppercase;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding-bottom: 0.2rem;
+              }
+
+              .astra-subtitle {
+                font-family: 'Lora', serif;
+                font-size: 0.7em;
+                /* 稍微调小字体以确保一行显示 */
+                font-weight: 400;
+                font-style: italic;
+                color: #5a6c7d;
+                letter-spacing: 0.01rem;
+                display: block;
+                margin-top: 0.6rem;
+                line-height: 1.4;
+                white-space: nowrap;
+                /* 强制不换行 */
+              }
+
+              .astra-initial {
+                font-weight: 700;
+                text-decoration: underline;
+                color: #2c3e50;
+              }
+
+              .link-separator {
+                margin: 0 0.5rem;
+                color: #b5b5b5;
+                font-weight: 300;
+                display: inline-block;
+                vertical-align: middle;
+              }
+
+              .custom-link {
+                color: #4a4a4a;
+                font-weight: 600;
+                display: inline-flex;
+                align-items: center;
+                vertical-align: middle;
+              }
+
+              .custom-link:hover {
+                color: #2c3e50;
+                text-decoration: underline;
+              }
+
+              .custom-link .icon {
+                margin-right: 0.2rem;
+              }
+
+              .publication-authors {
+                font-family: 'Google Sans', sans-serif;
+                color: #4a4a4a;
+                margin-bottom: 1.5rem;
+              }
+
+              /* 移动端适配：屏幕过窄时允许换行 */
+              @media screen and (max-width: 768px) {
+                .astra-subtitle {
+                  white-space: normal;
+                  font-size: 0.6em;
+                }
+              }
+            </style>
+
+            <div class="publication-links publication-links--pretty">
+              <!-- Project Page Link -->
+              <!-- <span class="link-block">
+                <a href="https://autoplanx.github.io" target="_blank" rel="noopener noreferrer"
+                  class="external-link custom-link">
+                  <span class="icon">
+                    <i class="fas fa-home"></i>
+                  </span>
+                  <span>Project Page</span>
+                </a>
+              </span> -->
+              <!-- <span class="link-separator">|</span> -->
+              <!-- Code Link -->
+              <span class="link-block">
+                <a href="https://github.com/autoplanx/autoplanx" target="_blank" rel="noopener noreferrer"
+                  class="external-link custom-link">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Github</span>
+                </a>
+              </span>
+              <span class="link-separator">|</span>
+              <!-- HF Dataset Link -->
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/autoplanx" target="_blank" rel="noopener noreferrer"
+                  class="external-link custom-link">
+                  <span class="icon">
+                    <i class="fas fa-database"></i>
+                  </span>
+                  <span>HF Dataset</span>
+                </a>
+              </span>
+              <span class="link-separator">|</span>
+              <!-- HF Model Link -->
+              <span class="link-block">
+                <a href="https://huggingface.co/autoplanx" target="_blank" rel="noopener noreferrer"
+                  class="external-link custom-link">
+                  <span class="icon">
+                    <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" width="24"
+                      height="24" />
+                  </span>
+                  <span>HF Model</span>
+                </a>
+              </span>
+              <span class="link-separator">|</span>
+              <!-- Paper Link -->
+              <span class="link-block">
+                <a href="#" class="external-link custom-link" aria-disabled="true" tabindex="-1"
+                  title="Paper coming soon" style="opacity: 0.5; cursor: default;">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (Coming Soon)</span>
+                </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* 公式容器样式 - 去除边框和背景 */
+    .formula-container {
+      /* background: #f8f9fa; */
+      /* border-radius: 30px; */
+      padding: 0.6rem 0.6rem;
+      margin: 1.0rem auto 0rem;
+      margin-bottom: 0rem;
+      width: fit-content;
+      display: block;
+      /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); */
+      /* border: 1px solid #e0e0e0; */
+    }
+
+    /* 行内公式样式 */
+    .math-inline {
+      font-family: "KaTeX_Math", sans-serif;
+      color: #1a237e;
+      font-style: italic;
+      padding: 0 0.3rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    /* 数学公式显示 */
+    .math-display {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .katex {
+      font-size: 1.2rem !important;
+      color: #000;
+    }
+
+    /* 文字描述样式 */
+    .formula-caption {
+      border-left: 3px solid #4a90e2;
+      padding-left: 1rem;
+    }
+
+    .caption-text {
+      color: #333;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .highlight-term {
+      color: #1565c0;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    /* 加载 KaTeX 字体 */
+    @import url('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css');
+
+    /* 摘要盒子样式 */
+    .abstract-box {
+      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 5px solid #2c3e50;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .abstract-text {
+      font-family: 'Lora', serif;
+      font-size: 1.3em;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .abstract-lead {
+      color: #2c3e50;
+      font-weight: 700;
+    }
+  </style>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="abstract-box">
+        <div class="abstract-text content has-text-justified">
+          <p>
+            <span class="abstract-lead">ASTRA</span> is an open-source project that generates high-quality, executable
+            agent–environment interaction data for AI training and evaluation.
+          </p>
+          <p>
+            It first collects real MCP interactions to capture authentic, multi-turn tool
+            usage, then synthesizes sandbox-verifiable environments by generating structured specifications and Python
+            implementations that define and implement environment tools. This two-stage pipeline enables scalable,
+            reliable training of multi-step, tool-augmented agents.
+          </p>
+          <p>
+            The videos below show the four stages of ASTRA’s environment synthesis pipeline and show how executable
+            environments are built automatically.
+          </p>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs is-centered gallery-tabs" id="gallery-tabs">
+        <ul>
+          <li class="is-active" data-tab="0">
+            <a>
+              <span>Q-A Pairs Synthesis</span>
+            </a>
+          </li>
+          <li data-tab="1">
+            <a>
+              <span>Trajectory Verification</span>
+            </a>
+          </li>
+          <li data-tab="2">
+            <a>
+              <span>Environment Synthesis</span>
+            </a>
+          </li>
+          <li data-tab="3">
+            <a>
+              <span>Environment Merging</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Gallery -->
+      <div class="gallery-wrapper">
+        <div class="gallery-arrow gallery-prev" id="prev-btn">
+          <i class="fas fa-chevron-left"></i>
+        </div>
+
+        <div class="gallery-stage">
+          <!-- Item 0 -->
+          <div class="gallery-item is-active" data-index="0">
+            <video poster="" autoplay controls muted loop playsinline width="100%">
+              <source src="./static/videos/QA_synthesis.mp4" type="video/mp4">
+            </video>
+          </div>
+          <!-- Item 1 -->
+          <div class="gallery-item" data-index="1">
+            <video poster="" controls muted loop playsinline width="100%">
+              <source src="./static/videos/trajectory_verification.mp4" type="video/mp4">
+            </video>
+          </div>
+          <!-- Item 2 -->
+          <div class="gallery-item" data-index="2">
+            <video poster="" controls muted loop playsinline width="100%">
+              <source src="./static/videos/env_synthesis.mp4" type="video/mp4">
+            </video>
+          </div>
+          <!-- Item 3 -->
+          <div class="gallery-item" data-index="3">
+            <video poster="" controls muted loop playsinline width="100%">
+              <source src="./static/videos/env_merge.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+        <div class="gallery-arrow gallery-next" id="next-btn">
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="margin: 2rem 0 !important; padding: 1.5rem 0 !important;">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 elegant-title">Overview</h2>
+
+      <div class="columns is-centered mb-6">
+        <div class="column is-full-width">
+          <figure class="image mb-5">
+            <img src="./static/images/model_performance.png" alt="Model Performance" class="enlargeable-image">
+            <figcaption class="mt-2"
+              style="color: #4a4a4a; font-family: 'Noto Sans', sans-serif; font-size: 1rem; line-height: 1.5;">
+              <strong>Model Performance On BFCL-V3 Multi-Turn Subset.</strong>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="content has-text-justified">
+        <p>
+          Recent progress in tool-augmented large language models has shown promise, yet existing methods struggle in
+          fully agentic, multi-turn settings: tool interactions are often simulated rather than executed, training data
+          relies on human annotation, and reinforcement learning lacks verifiable, rule-based verification environments,
+          leading to noisy rewards and unstable optimization.
+        </p>
+        <p>
+          To address these limitations, we propose an <strong>end-to-end, fully automated pipeline</strong> for
+          tool-agent training based on executable trajectories. We construct a <strong>large-scale, high-quality data
+            pipeline</strong> combining massive real MCP interactions with selective, session-consistent simulation for
+          supervised fine-tuning, and introduce a <strong>fully verifiable environment synthesis pipeline</strong> where
+          each step is grounded in executable code and validated by sandboxed execution, enabling scalable rule-based
+          reinforcement learning.
+        </p>
+        <p>Our contributions are as follows:</p>
+        <ul>
+          <li><strong>Fully open and automated agentic data synthesis pipeline.</strong> All code and model weights are
+            fully open-sourced. Moreover, the environment synthesis framework can automatically construct executable
+            environments given only domain specifications and relevant knowledge, without human-in-the-loop
+            intervention.</li>
+          <li><strong>State-of-the-art performance at comparable model scales.</strong> Our approach enables models at
+            comparable parameter scales to achieve state-of-the-art performance, approaching that of leading
+            closed-source models.</li>
+          <li><strong>Multi-domain, code-verifiable environments for RL.</strong> A fully automated environment
+            synthesis pipeline constructs multi-domain environments equipped with fully executable, rule-based
+            verification code, making them directly suitable for rule-based, multi-turn reinforcement learning.</li>
+        </ul>
+        <p>
+          Using this <strong>end-to-end automated framework</strong>, a <strong>32B-scale open model</strong> trained
+          with SFT followed by RL achieves performance <strong>competitive with and approaching closed-source
+            systems</strong> on complex multi-turn tool-use tasks, demonstrating that strong agentic capabilities can be
+          learned without human-in-the-loop supervision.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="margin: 2rem 0 !important; padding: 1.5rem 0 !important;">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 elegant-title">Multi-turn Tool-Integrated Trajectory Synthesis</h2>
+
+      <div class="columns is-centered mb-6">
+        <div class="column is-full-width">
+          <figure class="image mb-5">
+            <img src="./static/images/sft-pipeline.png" alt="Trajectory Synthesis Pipeline" class="enlargeable-image">
+            <figcaption class="mt-2"
+              style="color: #4a4a4a; font-family: 'Noto Sans', sans-serif; font-size: 1rem; line-height: 1.5;">
+              <strong>Overview of Trajectory Synthesis Pipeline.</strong>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="content has-text-justified">
+        <p>
+          <strong>Data Pipeline for Tool-grounded SFT.</strong>
+          We construct an SFT-ready dataset via an end-to-end pipeline that enforces <em>realism</em> and
+          <em>executability</em> throughout:
+        </p>
+        <ul>
+          <li><strong>Tool pool construction.</strong> We aggregate tools from open MCP registries, internal production
+            services, and public tool datasets, then normalize all interfaces into an OpenAI-style tool-calling schema
+            and group them by MCP server. We filter out servers that cannot support non-trivial multi-turn interactions,
+            yielding a clean tool pool (<strong>1,585</strong> servers; <strong>19,036</strong> tools;
+            <strong>41</strong> domains) for downstream synthesis.
+          </li>
+          <li><strong>Tool-chains and task synthesis.</strong> For each server, we derive <em>executable
+              tool-chains</em> by analyzing schema-level dependencies, verifying parameter satisfiability, and enforcing
+            acyclic workflows. We then synthesize multi-step user tasks using (i) chain-conditioned generation to
+            maximize executability and (ii) server-level generation to improve coverage and diversity, followed by
+            lightweight augmentation and filtering for clarity, realism, and tool-use necessity.</li>
+          <li><strong>Multi-turn rollout for trajectories.</strong> We collect trajectories by rolling out multi-turn
+            interactions between a tool-augmented agent and its environment, recording observations, tool calls, and
+            feedback. Deployed MCP services are executed directly, while document-only servers are handled by a
+            <em>session-consistent tool emulator</em> that maintains cross-turn state and injects controlled failures,
+            producing coherent training sequences for SFT and downstream reinforcement learning.
+          </li>
+          <li><strong>Automated reward modeling and filtering.</strong> All trajectories are scored by a fully
+            automated, rule-based LLM reward pipeline without human annotation. The reward aggregates seven dimensions
+            spanning understanding, planning, tool use, execution, and final answer quality, and is used to reliably
+            filter high-quality SFT trajectories at scale.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="margin: 2rem 0 !important; padding: 1.5rem 0 !important;">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 elegant-title"><span class="highlight-text">Fully Verifiable and Automated Environment
+          Synthesis</span></h2>
+
+      <div class="columns is-centered mb-6">
+        <div class="column is-full-width">
+          <figure class="image mb-5">
+            <img src="./static/images/env.png" alt="Environment Synthesis Pipeline" class="enlargeable-image">
+            <figcaption class="mt-2"
+              style="color: #4a4a4a; font-family: 'Noto Sans', sans-serif; font-size: 1rem; line-height: 1.5;">
+              <strong>Overview of Environment Synthesis Pipeline.</strong>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="content has-text-justified">
+        <p>
+          Our objective is to enable RLVR at scale with <strong>end-to-end automation</strong>, <strong>code-verifiable
+            process signals</strong>, and <strong>no human labels</strong>. We therefore synthesize
+          <strong>self-contained executable environments</strong> where each intermediate step can be <em>checked by
+            code sandbox</em>, which makes the pipeline naturally scalable. These environments are then used to roll out
+          multi-turn interactions and to derive process-level feedback for subsequent training.
+        </p>
+        <ul>
+          <li><strong>Decomposed trajectories as environment blueprints.</strong> Each instance is represented as a main
+            QA with explicit sub-QA steps organized by a dependency graph (chain/DAG), providing an inspectable
+            structure for reward attribution and step-wise validation.</li>
+          <li><strong>Execution-oriented validation.</strong> We discard decompositions solvable by linguistic reasoning
+            alone and score the remaining candidates along <strong>dependency consistency</strong>,
+            <strong>atomicity</strong>, <strong>sequential rationality</strong>, and <strong>task completeness</strong>.
+            Only high-quality trajectories are retained, ensuring they are well-structured and suitable for tool
+            grounding.
+          </li>
+          <li><strong>Tool grounding with sandbox checks.</strong> For each retained trajectory
+            $\tau=\{(q_i,a_i,d_i)\}_{i=1}^m$, we synthesize a tool specification, invocation, and <strong>Python
+              implementation</strong> per sub-step, then execute the code in a sandbox. A sub-environment is accepted
+            only if execution reproduces the target answer; otherwise synthesis is retried, and validated
+            sub-environments are composed into a complete environment for the original task.</li>
+          <li><strong>Compactness via intra-instance merging.</strong> To reduce redundancy and control action-space
+            growth, we merge functionally equivalent sub-environments that differ only in parameters. Homogeneous groups
+            are detected via an LLM-based classifier; a single implementation is retained and incrementally extended to
+            cover all cases, with sandbox re-execution after each update to preserve correctness.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="margin: 2rem 0 !important; padding: 1.5rem 0 !important;">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 elegant-title">Training Tool Agents</h2>
+
+      <div class="content has-text-justified">
+        <p>
+          We train tool agents in <strong>two stages</strong>: <strong>Supervised Fine-Tuning (SFT)</strong> followed by
+          <strong>Reinforcement Learning (RL)</strong>.
+          SFT provides a strong behavioral prior by training on curated multi-turn tool trajectories, enabling basic
+          capabilities such as tool invocation, workflow following, and long-context reasoning.
+          Building on this initialization, RL further improves <strong>long-horizon decision making</strong> and
+          <strong>tool-use efficiency</strong> in fully executable environments.
+        </p>
+
+        <h3 class="title is-4 subtitle-consistent">Online Multi-Turn Reinforcement Learning</h3>
+        <p>
+          We adopt an <strong>online, multi-turn agentic RL</strong> paradigm. Each training instance corresponds to an
+          independent simulated environment with no shared state.
+          During rollout, the agent repeatedly generates tool calls, executes them in a sandboxed runtime, and
+          conditions subsequent decisions on the full interaction history.
+          A trajectory terminates when all sub-tasks are solved, a maximum interaction length is reached, or the agent
+          stops issuing tool calls.
+        </p>
+
+        <h3 class="title is-4 subtitle-consistent">Trajectory-Level Reward Design</h3>
+        <p>
+          Reinforcement learning is driven by a <strong>trajectory-level reward</strong> that jointly captures task
+          completion and interaction efficiency.
+          Each instance is formalized as a job consisting of $n$ sub-tasks:
+        </p>
+        <div class="formula-container" style="display: block; text-align: center;">
+          $$
+          \text{job} = \{(q_1, a_1), (q_2, a_2), \ldots, (q_n, a_n)\}.
+          $$
+        </div>
+        <p>
+          Suppose the agent successfully solves $\hat{n}$ sub-tasks using $c$ tool calls.
+          We define
+        </p>
+        <div class="formula-container" style="display: block; text-align: center;">
+          $$
+          r = \frac{\hat{n}}{n}, \qquad
+          p = \frac{\hat{n}}{c},
+          $$
+        </div>
+        <p>
+          where $r$ measures <strong>sub-task recall</strong> and $p$ measures <strong>tool-use precision</strong>.
+          The final reward is computed as the harmonic mean:
+        </p>
+        <div class="formula-container" style="display: block; text-align: center;">
+          $$
+          \text{reward} = \frac{2pr}{p + r}.
+          $$
+        </div>
+        <p>
+          This reward formulation explicitly encourages solving as many required sub-tasks as possible while minimizing
+          redundant tool invocations, providing a structured learning signal over entire trajectories.
+        </p>
+
+        <h3 class="title is-4 subtitle-consistent">Stable Online Optimization with Adaptive Batch Filling</h3>
+        <p>
+          We optimize the policy using a GRPO-style objective.
+          The original GRPO objective is defined as:
+        </p>
+        <div class="formula-container" style="display: block; text-align: center;">
+          $$
+          \begin{aligned}
+          \mathcal{J}_{\mathrm{GRPO}}(\theta)
+          &=
+          \mathbb{E}\!\left[
+          q \sim P(Q),\ \{o_i\}_{i=1}^{G} \sim \pi_{\theta_{\mathrm{old}}}(\cdot \mid q)
+          \right] \\[6pt]
+          &\quad
+          \frac{1}{G}
+          \sum_{i=1}^{G}
+          \frac{1}{|o_i|}
+          \sum_{t=1}^{|o_i|}
+          \Bigl\{
+          \min \left(
+          \frac{\pi_\theta(o_{i,t} \mid q, o_{i,&lt;t})}
+          {\pi_{\theta_{\mathrm{old}}}(o_{i,t} \mid q, o_{i,&lt;t})}
+          \hat{A}_{i,t},
+          \;
+          \operatorname{clip}\!\left(
+          \frac{\pi_\theta(o_{i,t} \mid q, o_{i,&lt;t})}
+          {\pi_{\theta_{\mathrm{old}}}(o_{i,t} \mid q, o_{i,&lt;t})},
+          1-\epsilon,\ 1+\epsilon
+          \right)
+          \hat{A}_{i,t}
+          \right)
+          \\
+          &\qquad
+          -\,
+          \beta D_{\mathrm{KL}}\!\left(
+          \pi_\theta \,\|\, \pi_{\mathrm{ref}}
+          \right)
+          \Bigr\}.
+          \end{aligned}
+          $$
+        </div>
+        <!-- <p>where $r_{i,t}(\theta)$ denotes the policy ratio.</p> -->
+        <p>
+          In practice, we remove KL regularization and entropy bonuses. We adopt <strong>Adaptive Batch
+            Filling</strong>, which buffers valid trajectories and continues rollout generation until a full batch of
+          $n$ effective samples is collected. We further adopt a <strong>token-level policy gradient loss</strong>. The
+          final reinforcement learning objective is:
+        </p>
+        <div class="formula-container" style="display: block; text-align: center;">
+          $$
+          \begin{aligned}
+          \mathcal{J}_{\mathrm{GRPO}}'(\theta)
+          &=
+          \mathbb{E}_{(q,a)\sim\mathcal{D},\ \{o_i\}_{i=1}^{G}\sim\pi_{\theta_{\mathrm{old}}}(\cdot\mid q)}
+          \!\left[
+          \,\cdot\ \Bigm|\
+          \textcolor{red}{\operatorname{Std}\!\big(R(q,\{o_i\})\big) &gt; \delta}
+          \right]
+          \\[6pt]
+          &\quad
+          \left[
+          \frac{1}{\textcolor{red}{\sum_{i=1}^{G} |o_i|}}
+          \sum_{i=1}^{G}
+          \sum_{t=1}^{|o_i|}
+          \min \left(
+          \frac{\pi_\theta(o_{i,t}\mid q,o_{i,&lt;t})}
+          {\pi_{\theta_{\mathrm{old}}}(o_{i,t}\mid q,o_{i,&lt;t})}
+          \hat{A}_{i,t},
+          \;
+          \operatorname{clip}\!\left(
+          \frac{\pi_\theta(o_{i,t}\mid q,o_{i,&lt;t})}
+          {\pi_{\theta_{\mathrm{old}}}(o_{i,t}\mid q,o_{i,&lt;t})},
+          1-\epsilon,
+          1+\epsilon
+          \right)
+          \hat{A}_{i,t}
+          \right)
+          \right].
+          \end{aligned}
+          $$
+        </div>
+        <p>
+          Together, trajectory-level rewards, adaptive batch filling, and token-level optimization enable
+          <strong>stable online RL</strong> for learning <strong>multi-turn, tool-augmented policies</strong> in
+          fully executable and verifiable environments.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* 动态背景 */
+    .roadmap-container {
+      background: linear-gradient(135deg,
+          rgba(245, 245, 245, 0.95) 0%,
+          rgba(255, 255, 255, 0.9) 100%);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 动态标题 */
+    .gradient-text {
+      background: linear-gradient(45deg, #00b4d8, #90e0ef);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .pulsating-dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: #00b4d8;
+      border-radius: 50%;
+      margin-left: 1rem;
+      animation: pulse 1.5s infinite;
+    }
+
+    /* 表格布局 */
+    .roadmap-table {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .table-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 0.5rem;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+      position: relative;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* 交互效果 */
+    .table-row:hover {
+      transform: translateX(10px);
+      background: linear-gradient(90deg,
+          rgba(0, 180, 216, 0.1) 0%,
+          transparent 100%);
+    }
+
+    /* 状态指示器 */
+    .completed .table-cell:first-child {
+      color: #2dc8e3;
+    }
+
+    .in-progress .table-cell:first-child {
+      color: #f3d025c1;
+    }
+
+    .upcoming .table-cell:first-child {
+      color: #9aa3ab;
+    }
+
+    /* 进度条样式 */
+    .progress-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .progress {
+      flex-grow: 1;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .progress::-webkit-progress-value {
+      background: linear-gradient(90deg, #ffd60a, #ffc300);
+    }
+
+    /* 时间线动画 */
+    @keyframes pulse {
+      0% {
+        opacity: 0.6;
+        transform: scale(0.9);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+
+      100% {
+        opacity: 0.6;
+        transform: scale(0.9);
+      }
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .roadmap-table {
+        gap: 1rem;
+      }
+
+      .table-row {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+
+      .table-cell {
+        padding: 0.5rem 0;
+      }
+    }
+  </style>
+
+
+
+  <!-- 图片放大模态框 -->
+  <div id="imageModal" class="modal" aria-hidden="true" role="dialog">
+    <button class="close" type="button" aria-label="Close">&times;</button>
+    <div class="modal-inner">
+      <img class="modal-content" id="img01" alt="">
+      <div id="caption" class="modal-caption"></div>
+    </div>
+  </div>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title is-3 elegant-title">BibTeX</h2>
+      <pre><code>@misc{astra2026,
+        title    = {ASTRA: Automated Synthesis of agentic Trajectories and Reinforcement Arenas},
+        author   = {Beike Language and Intelligence (BLI)},
+        year     = {2026}
+}</code></pre>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <script language="JavaScript">
+      var caution = false
+      function setCookie(name, value, expires, path, domain, secure) {
+        var curCookie = name + "=" + escape(value) +
+          ((expires) ? "; expires=" + expires.toGMTString() : "") +
+          ((path) ? "; path=" + path : "") +
+          ((domain) ? "; domain=" + domain : "") +
+          ((secure) ? "; secure" : "")
+        if (!caution || (name + "=" + escape(value)).length <= 4000)
+          document.cookie = curCookie
+        else
+          if (confirm("Cookie exceeds 4KB and will be cut!"))
+            document.cookie = curCookie
+      }
+
+      function getCookie(name) {
+        var prefix = name + "="
+        var cookieStartIndex = document.cookie.indexOf(prefix)
+        if (cookieStartIndex == -1)
+          return null
+        var cookieEndIndex = document.cookie.indexOf(";", cookieStartIndex + prefix.length)
+        if (cookieEndIndex == -1)
+          cookieEndIndex = document.cookie.length
+        return unescape(document.cookie.substring(cookieStartIndex + prefix.length, cookieEndIndex))
+      }
+
+      function deleteCookie(name, path, domain) {
+        if (getCookie(name)) {
+          document.cookie = name + "=" +
+            ((path) ? "; path=" + path : "") +
+            ((domain) ? "; domain=" + domain : "") +
+            "; expires=Thu, 01-Jan-70 00:00:01 GMT"
+        }
+      }
+
+      function fixDate(date) {
+        var base = new Date(0)
+        var skew = base.getTime()
+        if (skew > 0)
+          date.setTime(date.getTime() - skew)
+      }
+
+      var now = new Date()
+      fixDate(now)
+      now.setTime(now.getTime() + 365 * 24 * 60 * 60 * 1000)
+      var visits = getCookie("counter")
+      if (!visits)
+        visits = 1
+      else
+        visits = parseInt(visits) + 1
+      setCookie("counter", visits, now)
+    </script>
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>
+              Website source code based on the <a href="https://nerfies.github.io">Nerfies</a> project page.
+              If you want to reuse their <a href="https://github.com/nerfies/nerfies.github.io">source code</a>,
+              please credit them appropriately.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+
+</body>
+
+</html>
